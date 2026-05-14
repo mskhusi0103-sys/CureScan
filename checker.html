@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Medicine Checker</title>
+<title>CureScan</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -63,8 +63,6 @@ width:90%;
 margin:50px auto;
 }
 
-/* TOP BOX */
-
 .checker-box{
 background:white;
 padding:35px;
@@ -72,8 +70,10 @@ border-radius:25px;
 box-shadow:0 5px 15px rgba(0,0,0,0.08);
 display:flex;
 justify-content:space-between;
-align-items:center;
+align-items:flex-start;
 }
+
+/* LEFT */
 
 .left h1{
 font-size:42px;
@@ -86,13 +86,24 @@ font-size:17px;
 color:#567C8D;
 }
 
+/* RIGHT */
+
 .right{
+position:relative;
 display:flex;
 gap:15px;
+align-items:flex-start;
+}
+
+/* INPUT */
+
+.input-box{
+position:relative;
+width:320px;
 }
 
 input{
-width:320px;
+width:100%;
 padding:15px;
 border:none;
 border-radius:12px;
@@ -100,6 +111,36 @@ background:#F0F4F7;
 font-size:16px;
 outline:none;
 }
+
+/* SUGGESTIONS */
+
+.suggestions{
+position:absolute;
+top:58px;
+left:0;
+width:100%;
+background:white;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+overflow:hidden;
+display:none;
+z-index:999;
+}
+
+.suggestion-item{
+padding:14px;
+font-size:15px;
+color:#7A8B99;
+cursor:pointer;
+transition:0.2s;
+}
+
+.suggestion-item:hover{
+background:#F5F8FA;
+color:#2F4156;
+}
+
+/* BUTTON */
 
 button{
 padding:15px 28px;
@@ -132,65 +173,7 @@ box-shadow:0 5px 15px rgba(0,0,0,0.08);
 .result-title{
 font-size:36px;
 color:#2F4156;
-margin-bottom:25px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-}
-
-.card{
-background:#F5F8FA;
-padding:25px;
-border-radius:20px;
-}
-
-.card h2{
-font-size:24px;
-margin-bottom:15px;
-color:#2F4156;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.card p{
-font-size:16px;
-line-height:1.8;
-color:#567C8D;
-}
-
-/* WARNING BOX */
-
-.warning-box{
-background:#FFEAEA;
-border-left:8px solid #E53935;
-padding:25px;
-margin-top:25px;
-border-radius:18px;
-display:flex;
-gap:20px;
-align-items:flex-start;
-}
-
-.warning-box i{
-font-size:34px;
-color:#E53935;
-margin-top:5px;
-}
-
-.warning-content h2{
-font-size:26px;
-color:#B71C1C;
-margin-bottom:12px;
-}
-
-.warning-content p{
-font-size:16px;
-line-height:1.8;
-color:#7A2E2E;
+margin-bottom:20px;
 }
 
 /* FOOTER */
@@ -221,8 +204,8 @@ CureScan
 
 <div class="nav-links">
 
-<a href="index.html">Home</a>
-<a href="checker.html">Checker</a>
+<a href="">Home</a>
+<a href="">Checker</a>
 <a href="">Features</a>
 <a href="">About</a>
 
@@ -251,17 +234,20 @@ allergy risks and interactions.
 
 <div class="right">
 
+<div class="input-box">
+
 <input
+type="text"
 id="medicine"
 placeholder="Enter medicine name"
-list="medicine-list">
+autocomplete="off">
 
-<datalist id="medicine-list">
-<option value="Ibuprofen">
-<option value="Paracetamol">
-<option value="Acetaminophen">
-<option value="Advil">
-</datalist>
+<div
+class="suggestions"
+id="suggestions">
+</div>
+
+</div>
 
 <button onclick="analyzeMedicine()">
 Analyze
@@ -270,8 +256,6 @@ Analyze
 </div>
 
 </div>
-
-<!-- RESULT -->
 
 <div id="result"></div>
 
@@ -287,269 +271,123 @@ CureScan • AI-Powered Health Companion
 
 <script>
 
-/* ENTER KEY SUPPORT */
+/* MEDICINE LIST */
 
-window.onload = function(){
+const medicines = [
+"Paracetamol",
+"Ibuprofen",
+"Acetaminophen",
+"Advil"
+];
 
-document.getElementById("medicine")
-.addEventListener("keydown", function(event){
+/* ELEMENTS */
 
-if(event.key === "Enter"){
-analyzeMedicine();
+const input =
+document.getElementById("medicine");
+
+const suggestions =
+document.getElementById("suggestions");
+
+const result =
+document.getElementById("result");
+
+/* LIVE SUGGESTIONS */
+
+input.addEventListener("input", function(){
+
+let value =
+input.value
+.trim()
+.toLowerCase();
+
+suggestions.innerHTML = "";
+
+if(value === ""){
+
+suggestions.style.display = "none";
+return;
+
+}
+
+let filtered =
+medicines.filter(function(med){
+
+return med
+.toLowerCase()
+.includes(value);
+
+});
+
+if(filtered.length === 0){
+
+suggestions.style.display = "none";
+return;
+
+}
+
+filtered.forEach(function(item){
+
+let div =
+document.createElement("div");
+
+div.classList.add("suggestion-item");
+
+div.innerText = item;
+
+div.onclick = function(){
+
+input.value = item;
+
+suggestions.style.display = "none";
+
+};
+
+suggestions.appendChild(div);
+
+});
+
+suggestions.style.display = "block";
+
+});
+
+/* HIDE SUGGESTIONS WHEN CLICK OUTSIDE */
+
+document.addEventListener("click", function(e){
+
+if(!e.target.closest(".input-box")){
+
+suggestions.style.display = "none";
+
 }
 
 });
 
-};
+/* ENTER KEY SUPPORT */
+
+input.addEventListener("keydown", function(event){
+
+if(event.key === "Enter"){
+
+event.preventDefault();
+
+analyzeMedicine();
+
+}
+
+});
 
 /* MAIN FUNCTION */
 
 function analyzeMedicine(){
 
 let med =
-document.getElementById("medicine")
-.value
+input.value
 .trim()
 .toLowerCase();
 
-let result =
-document.getElementById("result");
-
-/* IBUPROFEN */
-
-if(
-med=="ibuprofen" ||
-med=="advil"
-){
-
-result.innerHTML = `
-
-<div class="result-card">
-
-<h1 class="result-title">
-Ibuprofen Analysis
-</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-triangle-exclamation"></i>
-Side Effects
-</h2>
-
-<p>
-• Stomach pain or irritation<br>
-• Nausea and vomiting<br>
-• Dizziness or drowsiness<br>
-• Headache<br>
-• Heartburn or acidity<br>
-• Bloating and gas<br>
-• Mild skin rash<br>
-• Increased blood pressure in some cases<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-burger"></i>
-Foods To Avoid
-</h2>
-
-<p>
-• Alcohol<br>
-• Excess spicy foods<br>
-• High caffeine intake<br>
-• Very salty processed foods<br>
-• Grapefruit products<br>
-• Heavy oily or fried foods<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-shield-virus"></i>
-Allergy Warning
-</h2>
-
-<p>
-• Avoid if allergic to NSAIDs or aspirin<br>
-• May cause skin rash or itching<br>
-• Can trigger swelling of face or throat<br>
-• Breathing difficulty may occur in severe cases<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-capsules"></i>
-Drug Interactions
-</h2>
-
-<p>
-• Aspirin<br>
-• Blood thinners<br>
-• Steroids<br>
-• Other NSAID medicines<br>
-• High blood pressure medicines<br>
-• Certain antidepressants<br>
-• Kidney-related medications<br>
-• Diuretics (water pills)<br>
-</p>
-
-</div>
-
-</div>
-
-<div class="warning-box">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-<div class="warning-content">
-
-<h2>Important Warning</h2>
-
-<p>
-Do not take Ibuprofen on an empty stomach.
-Avoid overdosing as it may cause stomach bleeding,
-kidney problems or serious heart complications.
-Consult a doctor immediately if severe allergic
-reaction, chest pain or breathing difficulty occurs.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-/* PARACETAMOL */
-
-else if(
-med=="paracetamol" ||
-med=="acetaminophen"
-){
-
-result.innerHTML = `
-
-<div class="result-card">
-
-<h1 class="result-title">
-Paracetamol Analysis
-</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-triangle-exclamation"></i>
-Side Effects
-</h2>
-
-<p>
-• Nausea or vomiting<br>
-• Headache<br>
-• Dizziness<br>
-• Mild stomach pain<br>
-• Loss of appetite<br>
-• Skin rash in rare cases<br>
-• Tiredness or weakness<br>
-• Liver damage if overdosed<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-burger"></i>
-Foods To Avoid
-</h2>
-
-<p>
-• Alcohol<br>
-• Excess fatty foods<br>
-• Very sugary drinks<br>
-• Excess caffeine<br>
-• Herbal supplements without medical advice<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-shield-virus"></i>
-Allergy Warning
-</h2>
-
-<p>
-• Avoid if allergic to paracetamol<br>
-• May cause skin rash or itching<br>
-• Rare allergic swelling may occur<br>
-• Stop use if breathing difficulty appears<br>
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-<i class="fa-solid fa-capsules"></i>
-Drug Interactions
-</h2>
-
-<p>
-• Alcohol<br>
-• Blood thinners<br>
-• Anti-seizure medicines<br>
-• Certain antibiotics<br>
-• Liver-related medications<br>
-</p>
-
-</div>
-
-</div>
-
-<div class="warning-box">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-<div class="warning-content">
-
-<h2>Important Warning</h2>
-
-<p>
-Do not exceed the recommended dosage of Paracetamol.
-Overdose may lead to severe liver damage or liver failure.
-Avoid consuming alcohol while taking this medicine.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
 /* EMPTY INPUT */
 
-else if(med==""){
+if(med === ""){
 
 result.innerHTML = `
 
@@ -563,6 +401,70 @@ Enter A Medicine Name
 <p style="color:#567C8D;font-size:18px;">
 
 Please type a medicine name first.
+
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+/* IBUPROFEN */
+
+if(
+med === "ibuprofen" ||
+med === "advil"
+){
+
+result.innerHTML = `
+
+<div class="result-card">
+
+<h1 class="result-title">
+Ibuprofen Analysis
+</h1>
+
+<p style="font-size:18px;color:#567C8D;line-height:1.8;">
+
+• Stomach irritation<br>
+• Nausea and dizziness<br>
+• Avoid alcohol<br>
+• Avoid overdose<br>
+• Can interact with blood thinners
+
+</p>
+
+</div>
+
+`;
+
+}
+
+/* PARACETAMOL */
+
+else if(
+med === "paracetamol" ||
+med === "acetaminophen"
+){
+
+result.innerHTML = `
+
+<div class="result-card">
+
+<h1 class="result-title">
+Paracetamol Analysis
+</h1>
+
+<p style="font-size:18px;color:#567C8D;line-height:1.8;">
+
+• Liver damage if overdosed<br>
+• Avoid alcohol<br>
+• May cause nausea<br>
+• Avoid taking excess dosage<br>
+• Consult doctor if allergic
 
 </p>
 
@@ -591,7 +493,7 @@ Medicine Not Found
 <p style="color:#567C8D;font-size:18px;">
 
 Try:
-Ibuprofen, Advil, Paracetamol or Acetaminophen
+Paracetamol or Ibuprofen
 
 </p>
 
