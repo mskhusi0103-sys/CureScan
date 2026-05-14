@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>CureScan</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#EAF1F5;
+}
+
+/* NAVBAR */
+
+.navbar{
+height:70px;
+background:#2F4156;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 40px;
+color:white;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+font-size:16px;
+transition:0.3s;
+}
+
+.nav-links a:hover{
+color:#C8D9E6;
+}
+
+/* HERO */
+
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:50px 70px;
+}
+
+.hero-text h1{
+font-size:58px;
+color:#2F4156;
+width:520px;
+line-height:1.1;
+}
+
+.hero-text p{
+margin-top:20px;
+font-size:18px;
+color:#567C8D;
+width:500px;
+line-height:1.6;
+}
+
+.hero img{
+width:350px;
+}
+
+/* BUTTONS */
+
+.buttons{
+margin-top:30px;
+display:flex;
+gap:15px;
+}
+
+.btn1{
+padding:14px 28px;
+background:#2F4156;
+color:white;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+}
+
+.btn2{
+padding:14px 28px;
+background:white;
+color:#2F4156;
+border:2px solid #567C8D;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+}
+
+/* FEATURES */
+
+.cards{
+width:90%;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card i{
+font-size:40px;
+color:#2F4156;
+margin-bottom:20px;
+}
+
+.card h2{
+font-size:24px;
+color:#2F4156;
+margin-bottom:15px;
+}
+
+.card p{
+font-size:16px;
+line-height:1.6;
+color:#567C8D;
+}
+
+/* ABOUT PREVIEW */
+
+.about-preview{
+width:90%;
+margin:60px auto;
+background:white;
+padding:45px;
+border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.about-preview h1{
+font-size:45px;
+color:#2F4156;
+margin-bottom:20px;
+}
+
+.about-preview p{
+font-size:18px;
+line-height:1.8;
+color:#567C8D;
+max-width:900px;
+margin:auto;
+}
+
+/* FOOTER */
+
+.footer{
+background:#2F4156;
+margin-top:60px;
+padding:30px;
+text-align:center;
+color:white;
+font-size:16px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-shield-heart"></i>
+
+CureScan
+
+</div>
+
+<div class="nav-links">
+
+<a href="#home">Home</a>
+
+<a href="checker.html">Checker</a>
+
+<a href="#features">Features</a>
+
+<a href="about.html">About</a>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+
+<div class="hero-text">
+
+<h1>
+AI-Powered Medicine Safety Checker
+</h1>
+
+<p>
+Check medicine safety, understand precautions,
+and make informed health decisions with quick
+and reliable AI-powered insights.
+</p>
+
+<div class="buttons">
+
+<a href="checker.html">
+
+<button class="btn1">
+Check Medicine
+</button>
+
+</a>
+
+<a href="about.html">
+
+<button class="btn2">
+Learn More
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/4320/4320337.png">
+
+</div>
+
+<!-- FEATURES -->
+
+<div class="cards" id="features">
+
+<div class="card">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<h2>Side Effects</h2>
+
+<p>
+Learn about possible side effects before taking
+any medication. CureScan provides AI-powered
+insights into common reactions and health risks.
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-burger"></i>
+
+<h2>Foods To Avoid</h2>
+
+<p>
+Certain foods and drinks may interact negatively
+with medicines and reduce their effectiveness.
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-shield-virus"></i>
+
+<h2>Allergy Warning</h2>
+
+<p>
+Avoid unexpected allergic reactions by checking
+medicine ingredients and allergy-related risks.
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-capsules"></i>
+
+<h2>Drug Interactions</h2>
+
+<p>
+CureScan analyzes multiple medications to detect
+harmful drug interactions and provide alerts.
+</p>
+
+</div>
+
+</div>
+
+<!-- ABOUT PREVIEW -->
+
+<div class="about-preview">
+
+<h1>
+Why CureScan?
+</h1>
+
+<p>
+CureScan is designed to make medicine safety
+simple, fast and understandable for everyone.
+Our AI-inspired healthcare assistant helps users
+identify side effects, food interactions,
+allergy risks and harmful drug combinations
+through a clean and user-friendly interface.
+</p>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+CureScan • AI-Powered Health Companion
+
+</div>
+
+</body>
+
+</html>
