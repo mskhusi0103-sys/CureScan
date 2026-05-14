@@ -119,24 +119,32 @@ position:absolute;
 top:58px;
 left:0;
 width:100%;
-background:white;
+background:#F0F4F7;
+border:1px solid #D6E0E7;
 border-radius:14px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
 overflow:hidden;
 display:none;
 z-index:999;
+backdrop-filter:blur(10px);
 }
 
 .suggestion-item{
 padding:14px;
 font-size:15px;
-color:#7A8B99;
+color:#567C8D;
 cursor:pointer;
 transition:0.2s;
+background:#F0F4F7;
+border-bottom:1px solid #E2EAF0;
+}
+
+.suggestion-item:last-child{
+border-bottom:none;
 }
 
 .suggestion-item:hover{
-background:#F5F8FA;
+background:#DCE7EE;
 color:#2F4156;
 }
 
