@@ -418,7 +418,7 @@ suggestions.style.display = "none";
 
 });
 
-/* ENTER KEY SUPPORT */
+/* ENTER KEY */
 
 medicineInput.addEventListener("keydown", function(event){
 
@@ -432,12 +432,11 @@ analyzeMedicine();
 
 });
 
-/* MAIN FUNCTION */
-
 function analyzeMedicine(){
 
 let med =
-medicineInput.value
+document.getElementById("medicine")
+.value
 .trim()
 .toLowerCase();
 
