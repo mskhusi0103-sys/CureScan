@@ -247,10 +247,15 @@ allergy risks and interactions.
 </div>
 
 <div class="right">
-
 <input
 id="medicine"
-placeholder="Enter medicine name">
+placeholder="Enter medicine name"
+list="medicine-list">
+
+<datalist id="medicine-list">
+<option value="Ibuprofen">
+<option value="Paracetamol">
+</datalist>
 
 <button onclick="analyzeMedicine()">
 Analyze
