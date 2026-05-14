@@ -98,6 +98,7 @@ border:none;
 border-radius:12px;
 background:#F0F4F7;
 font-size:16px;
+outline:none;
 }
 
 button{
@@ -108,6 +109,11 @@ border:none;
 border-radius:12px;
 font-size:16px;
 cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#3D556F;
 }
 
 /* RESULT */
@@ -216,11 +222,8 @@ CureScan
 <div class="nav-links">
 
 <a href="index.html">Home</a>
-
 <a href="checker.html">Checker</a>
-
 <a href="">Features</a>
-
 <a href="">About</a>
 
 </div>
@@ -247,6 +250,7 @@ allergy risks and interactions.
 </div>
 
 <div class="right">
+
 <input
 id="medicine"
 placeholder="Enter medicine name"
@@ -255,6 +259,8 @@ list="medicine-list">
 <datalist id="medicine-list">
 <option value="Ibuprofen">
 <option value="Paracetamol">
+<option value="Acetaminophen">
+<option value="Advil">
 </datalist>
 
 <button onclick="analyzeMedicine()">
@@ -276,22 +282,45 @@ Analyze
 <div class="footer">
 CureScan • AI-Powered Health Companion
 </div>
+
 <!-- SCRIPT -->
 
 <script>
+
+/* ENTER KEY SUPPORT */
+
+window.onload = function(){
+
+document.getElementById("medicine")
+.addEventListener("keydown", function(event){
+
+if(event.key === "Enter"){
+analyzeMedicine();
+}
+
+});
+
+};
+
+/* MAIN FUNCTION */
 
 function analyzeMedicine(){
 
 let med =
 document.getElementById("medicine")
-.value.toLowerCase();
+.value
+.trim()
+.toLowerCase();
 
 let result =
 document.getElementById("result");
 
 /* IBUPROFEN */
 
-if(med=="ibuprofen"){
+if(
+med=="ibuprofen" ||
+med=="advil"
+){
 
 result.innerHTML = `
 
@@ -393,8 +422,6 @@ Avoid overdosing as it may cause stomach bleeding,
 kidney problems or serious heart complications.
 Consult a doctor immediately if severe allergic
 reaction, chest pain or breathing difficulty occurs.
-Not recommended for people with ulcers,
-kidney disease or severe asthma without medical advice.
 </p>
 
 </div>
@@ -409,7 +436,10 @@ kidney disease or severe asthma without medical advice.
 
 /* PARACETAMOL */
 
-else if(med=="paracetamol"){
+else if(
+med=="paracetamol" ||
+med=="acetaminophen"
+){
 
 result.innerHTML = `
 
@@ -454,7 +484,6 @@ Foods To Avoid
 • Very sugary drinks<br>
 • Excess caffeine<br>
 • Herbal supplements without medical advice<br>
-• Smoking frequently while medicated<br>
 </p>
 
 </div>
@@ -467,12 +496,10 @@ Allergy Warning
 </h2>
 
 <p>
-• Avoid if allergic to paracetamol or acetaminophen<br>
+• Avoid if allergic to paracetamol<br>
 • May cause skin rash or itching<br>
 • Rare allergic swelling may occur<br>
 • Stop use if breathing difficulty appears<br>
-• Consult a doctor if you have liver disease<br>
-• Do not exceed recommended dosage<br>
 </p>
 
 </div>
@@ -490,9 +517,6 @@ Drug Interactions
 • Anti-seizure medicines<br>
 • Certain antibiotics<br>
 • Liver-related medications<br>
-• Other medicines containing paracetamol<br>
-• Tuberculosis medicines<br>
-• Some herbal supplements<br>
 </p>
 
 </div>
@@ -511,14 +535,36 @@ Drug Interactions
 Do not exceed the recommended dosage of Paracetamol.
 Overdose may lead to severe liver damage or liver failure.
 Avoid consuming alcohol while taking this medicine.
-Seek immediate medical help if symptoms like yellow skin,
-dark urine, breathing difficulty or severe allergic
-reaction appear. Use carefully in liver patients.
 </p>
 
 </div>
 
 </div>
+
+</div>
+
+`;
+
+}
+
+/* EMPTY INPUT */
+
+else if(med==""){
+
+result.innerHTML = `
+
+<div class="result-card">
+
+<h1 class="result-title">
+<i class="fa-solid fa-circle-info"></i>
+Enter A Medicine Name
+</h1>
+
+<p style="color:#567C8D;font-size:18px;">
+
+Please type a medicine name first.
+
+</p>
 
 </div>
 
@@ -545,7 +591,7 @@ Medicine Not Found
 <p style="color:#567C8D;font-size:18px;">
 
 Try:
-Ibuprofen or Paracetamol
+Ibuprofen, Advil, Paracetamol or Acetaminophen
 
 </p>
 
@@ -558,3 +604,6 @@ Ibuprofen or Paracetamol
 }
 
 </script>
+
+</body>
+</html>
